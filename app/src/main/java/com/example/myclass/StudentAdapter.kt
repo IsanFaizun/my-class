@@ -1,8 +1,10 @@
 package com.example.lat10
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myclass.DetailActivity
 import com.example.myclass.R
 import com.example.myclass.Student
 import com.example.myclass.databinding.ItemMyclassBinding
@@ -24,8 +26,21 @@ class StudentAdapter(private val listStudent: List<Student>,
                 nimMhsTxt.text = data.nim
                 ipkTxt.text = data.ipk.toString()
 
+                if(data.ipk < 3.0) {
+                    ipkTxt.setBackgroundColor(itemView.context.getColor(R.color.red))
+                } else {
+                    ipkTxt.setBackgroundColor(itemView.context.getColor(R.color.green))
+                }
+
                 itemView.setOnClickListener{
                     onClickStudent(data)
+                    val intentToDetail = Intent(itemView.context, DetailActivity::class.java).apply {
+                        putExtra(Student.EXTRA_STUDENT_IMAGE, data.image)
+                        putExtra(Student.EXTRA_STUDENT_NAMA, data.nama)
+                        putExtra(Student.EXTRA_STUDENT_NIM, data.nim)
+                        putExtra(Student.EXTRA_STUDENT_IPK, data.ipk)
+                    }
+                    itemView.context.startActivity(intentToDetail)
                 }
             }
         }
